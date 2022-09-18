@@ -209,6 +209,7 @@ get_regression(lambda x: int(random.random()*10), 10)
 ![Снимок экрана 2022-09-18 215735](https://user-images.githubusercontent.com/101575777/190919136-886ba818-c61a-445c-bacb-11dd6733fda7.png)
 
 А здесь наоборот из-за того, что параметр Lr слишком мал и колличество итераций недостаточно, график не успел поднятся.
+![Снимок экрана 2022-09-18 222145](https://user-images.githubusercontent.com/101575777/190920341-621d7b71-64c0-4552-b7c4-ef2b5b2a024a.png)
 
 ## Выводы
 
