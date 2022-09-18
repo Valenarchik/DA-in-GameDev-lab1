@@ -11,10 +11,6 @@
 | Задание 2 | * | 20 |
 | Задание 3 | # | 20 |
 
-[![N|Solid](https://cldup.com/dTxpPi9lDf.thumb.png)](https://nodesource.com/products/nsolid)
-
-[![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://travis-ci.org/joemccann/dillinger)
-
 ## Цель работы
 Ознакомиться с основными операторами зыка Python на примере реализации линейной регрессии.
 
@@ -103,7 +99,6 @@ plt.show()
 ```
 - Начать итерацию
 
-
 Первая итерация, график неточный (вообще мимо).
 ![Снимок экрана 2022-09-18 130122](https://user-images.githubusercontent.com/101575777/190892168-c239e826-3b40-4745-ac14-a2f1bd71a323.png)
 
@@ -139,8 +134,6 @@ plt.show()
 
 При этом, что странно, величина loss относительно невелика на абсолютно случайных данных. 
 ![Снимок экрана 2022-09-18 201457](https://user-images.githubusercontent.com/101575777/190915989-cb8b4c03-1b35-41a8-b6b8-3ccd7ef519d9.png)
-
-
 
 **Код тестов** 
 ```py
@@ -209,17 +202,15 @@ get_regression(lambda x: int(random.random()*10), 10)
 ```
 
 - Какова роль параметра Lr? Ответьте на вопрос, приведите пример выполнения кода, который подтверждает ваш ответ. В качестве эксперимента можете изменить значение параметра.
+
+**Ответ** Параметр Lr определяет с какой скорость будет подравниваться график, тем самым определяя точность. Если Lr маленький, то график медленно выравнивается, но зато точнее. Если Lr сслишком велик, то график вообще выскакивает за ось OX, то есть тоности нет.
+
+Как видно, что даже за одну инерацию, имея неслучайные начальные параметры  и относительно большой параметр Lr, график сильно перескочил вверх.
+![Снимок экрана 2022-09-18 215735](https://user-images.githubusercontent.com/101575777/190919136-886ba818-c61a-445c-bacb-11dd6733fda7.png)
+
+А здесь наоборот из-за того, что параметр Lr слишком мал и колличество итераций недостаточно, график не успел поднятся.
+
 ## Выводы
-
-
-| Plugin | README |
-| ------ | ------ |
-| Dropbox | [plugins/dropbox/README.md][PlDb] |
-| GitHub | [plugins/github/README.md][PlGh] |
-| Google Drive | [plugins/googledrive/README.md][PlGd] |
-| OneDrive | [plugins/onedrive/README.md][PlOd] |
-| Medium | [plugins/medium/README.md][PlMe] |
-| Google Analytics | [plugins/googleanalytics/README.md][PlGa] |
 
 ## Powered by
 **Pavel Mokrushin**
