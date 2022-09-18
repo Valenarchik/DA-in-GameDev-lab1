@@ -124,6 +124,89 @@ plt.show()
 ## Задание 3
 ### Изучить код на Python и ответить на вопросы
 - Должна ли величина loss стремиться к нулю при изменении исходных данных? Ответьте на вопрос, приведите пример выполнения кода, который подтверждает ваш ответ.
+
+**Ответ:** Да, величина loss может стремиться к нулю. Это возможно если изначально точки были заданы, используя линейную функцию (то бишь находились на одной прямой)
+![Снимок экрана 2022-09-18 151842](https://user-images.githubusercontent.com/101575777/190915885-163f39e9-0886-4e63-a251-cb2b89af61f8.png)
+
+Но стоит заметь, что если параметр b отличен от нуля (прямая не проходит через начало координат), то алгоритм не способен найти нужный график и величина loss растет тем больше, чем параметр b больше по модулю.
+![Снимок экрана 2022-09-18 201109](https://user-images.githubusercontent.com/101575777/190915963-4f3685f5-eb22-487b-bfae-6edc8a1cf8a4.png)
+
+
+Если изначальная функция не линейна, то величина loss быстро возрастает.
+![Снимок экрана 2022-09-18 202742](https://user-images.githubusercontent.com/101575777/190915983-cce3e065-2b9a-4c96-8af1-dcf971264ece.png)
+
+При этом, что странно, величина loss относительно невелика на абсолютно случайных данных. 
+![Снимок экрана 2022-09-18 201457](https://user-images.githubusercontent.com/101575777/190915989-cb8b4c03-1b35-41a8-b6b8-3ccd7ef519d9.png)
+
+Также величина loss стремится к нулю, если данные расположены на функции корня.
+![Снимок экрана 2022-09-18 203259](https://user-images.githubusercontent.com/101575777/190915992-ec87679e-5121-4e10-a240-9e520e32b068.png)
+
+**Код тестов** 
+```py
+import numpy as np
+import matplotlib.pyplot as plt
+import random
+
+
+def model(a, b, x):
+    return a * x + b
+
+
+def loss_function(a, b, x, y):
+    num = len(x)
+    prediction = model(a, b, x)
+    return (0.5 / num) * (np.square(prediction - y)).sum()
+
+
+def optimize(a, b, x, y):
+    num = len(x)
+    prediction = model(a, b, x)
+    da = (1.0 / num) * ((prediction - y) * x).sum()
+    db = (1.0 / num) * ((prediction - y).sum())
+    a -= Lr * da
+    b -= Lr * db
+    return a, b
+
+
+def iterate(a, b, x, y, times):
+    for i in range(times):
+        a, b = optimize(a, b, x, y)
+    return a, b
+
+
+def get_data(func, times):
+    x = [0]
+    y = [func(0)]
+    for i in range(0, times):
+        x.append(x[i] + int(random.random()*10))
+        y.append(func(x[i+1]))
+    return x, y
+
+
+def get_regression(func, times):
+    data = get_data(func, times)
+    a = np.random.rand(1)
+    b = np.random.rand(1)
+
+    x = np.array(data[0])
+    y = np.array(data[1])
+    a, b = iterate(a, b, x, y, 10000)
+    plt.scatter(x, y)
+    plt.plot(x, model(a, b, x))
+    plt.show()
+    print(f"Потери:{int(loss_function(a, b, x, y))}")
+
+
+Lr = 0.000001
+get_regression(lambda x: x * 2, 10)
+get_regression(lambda x: x * 2 + 10, 10)
+get_regression(lambda x: x * 2 + 100, 10)
+get_regression(lambda x: x * x, 10)
+get_regression(lambda x: 2 ** x, 10)
+get_regression(lambda x: x ** 0.5, 10)
+get_regression(lambda x: int(random.random()*10), 10)
+```
+
 - Какова роль параметра Lr? Ответьте на вопрос, приведите пример выполнения кода, который подтверждает ваш ответ. В качестве эксперимента можете изменить значение параметра.
 ## Выводы
 
