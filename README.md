@@ -50,10 +50,68 @@ public class HelloWorld : MonoBehaviour
 ### Пошагово выполнить каждый пункт раздела "ход работы" с описанием и примерами реализации задач
 
 - Произвести подготовку данных для работы с алгоритмом линейной регрессии. 10 видов данных были установлены случайным образом, и данные находились в линейной зависимости. Данные преобразуются в формат массива, чтобы их можно было вычислить напрямую при использовании умножения и сложения.
+![Снимок экрана 2022-09-18 122829](https://user-images.githubusercontent.com/101575777/190890876-cfb9951d-5e96-48a3-86c9-61e322c92624.png)
 
 - Определите связанные функции. Функция модели: определяет модель линейной регрессии wx+b. Функция потерь: функция потерь среднеквадратичной ошибки. Функция оптимизации: метод градиентного спуска для нахождения частных производных w и b.
+```py 
+import numpy as np
+import matplotlib.pyplot as plt
 
+
+def model(a, b, x):
+    return a*x+b
+
+
+def loss_function(a, b, x, y):
+    num = len(x)
+    prediction = model(a, b, x)
+    return (0.5/num) * (np.square(prediction - y)).sum()
+
+
+def optimize(a, b, x, y):
+    num = len(x)
+    prediction = model(a, b, x)
+    da = (1.0/num) * ((prediction - y)*x).sum()
+    db = (1.0/num) * ((prediction - y).sum())
+    a -= Lr*da
+    b -= Lr*db
+    return a, b
+
+
+def iterate(a, b, x, y, times):
+    for i in range(times):
+        a, b = optimize(a, b, x, y)
+    return a, b
+
+
+a = np.random.rand(1)
+print(a)
+b = np.random.rand(1)
+print(b)
+Lr = 0.000001
+
+x = np.array([3, 21, 22, 34, 54, 34, 55, 67, 89, 99])
+y = np.array([2, 22, 24, 65, 79, 82, 55, 130, 150, 199])
+
+a, b = iterate(a, b, x, y, 1)
+prediction = model(a, b, x)
+loss = loss_function(a, b, x, y)
+print(a, b, loss)
+plt.scatter(x, y)
+plt.plot(x, prediction)
+plt.show()
+```
 - Начать итерацию
+Первая итерация, график неточный (вообще мимо).
+![Снимок экрана 2022-09-18 130122](https://user-images.githubusercontent.com/101575777/190892168-c239e826-3b40-4745-ac14-a2f1bd71a323.png)
+Вторая итерация, график стал немного поточнее.
+![Снимок экрана 2022-09-18 130159](https://user-images.githubusercontent.com/101575777/190892171-35650758-4c98-4c50-b9c7-4a47dc933efe.png)
+Третья итерация, видно не повезло, график опять мимо.
+![Снимок экрана 2022-09-18 130224](https://user-images.githubusercontent.com/101575777/190892173-9ef71d3e-5117-4676-859b-277834c6213d.png)
+Четвертая итерация, чуть лучше второй итерации.
+![Снимок экрана 2022-09-18 130243](https://user-images.githubusercontent.com/101575777/190892175-17170c34-8035-4a21-b209-01ba0f2f2454.png)
+Думаю, идеально.
+![Снимок экрана 2022-09-18 130320](https://user-images.githubusercontent.com/101575777/190892176-d2cab0af-8e5f-43ad-88df-e449e7e6053e.png)
 
 ## Задание 3
 ### Изучить код на Python и ответить на вопросы
