@@ -135,7 +135,7 @@ plt.show()
 При этом, что странно, величина loss относительно невелика на абсолютно случайных данных. 
 ![Снимок экрана 2022-09-18 201457](https://user-images.githubusercontent.com/101575777/190915989-cb8b4c03-1b35-41a8-b6b8-3ccd7ef519d9.png)
 
-**Код тестов** 
+**Код тестов:** 
 ```py
 import numpy as np
 import matplotlib.pyplot as plt
@@ -211,6 +211,58 @@ get_regression(lambda x: int(random.random()*10), 10)
 А здесь наоборот из-за того, что параметр Lr слишком мал и колличество итераций недостаточно, график не успел поднятся.
 ![Снимок экрана 2022-09-18 222145](https://user-images.githubusercontent.com/101575777/190920341-621d7b71-64c0-4552-b7c4-ef2b5b2a024a.png)
 
+**Код примера:** 
+```py
+import numpy as np
+import matplotlib.pyplot as plt
+
+
+def model(a, b, x):
+    return a * x + b
+
+
+def loss_function(a, b, x, y):
+    num = len(x)
+    prediction = model(a, b, x)
+    return (0.5 / num) * (np.square(prediction - y)).sum()
+
+
+def optimize(a, b, x, y):
+    num = len(x)
+    prediction = model(a, b, x)
+    da = (1.0 / num) * ((prediction - y) * x).sum()
+    db = (1.0 / num) * ((prediction - y).sum())
+    a -= Lr * da
+    b -= Lr * db
+    return a, b
+
+
+def iterate(a, b, x, y, times):
+    for i in range(times):
+        a, b = optimize(a, b, x, y)
+    return a, b
+
+
+def get_regression():
+    a = 0
+    b = 0
+    x = np.array([3, 21, 22, 34, 54, 34, 55, 67, 89, 99])
+    y = np.array([2, 22, 24, 65, 79, 82, 55, 130, 150, 199])
+    a, b = iterate(a, b, x, y, Count_iteration)
+    prediction = model(a, b, x)
+    loss = loss_function(a, b, x, y)
+    print(f"a = {a} b = {b} loss = {loss} Lr = {Lr}")
+    plt.scatter(x, y)
+    plt.plot(x, prediction)
+    plt.show()
+
+
+Count_iteration = 10
+for i in range(1, 10):
+    Lr = 1/(10 ** i)
+    get_regression()
+
+```
 ## Выводы
 
 ## Powered by
