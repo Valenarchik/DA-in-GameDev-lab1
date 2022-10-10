@@ -45,6 +45,86 @@
 | :--: |
 | ![проект работает](https://user-images.githubusercontent.com/101575777/194856767-39d1900b-3c01-474a-ad1f-c26bd918a2da.png) |
 
+```css
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using SimpleJSON;
+using UnityEngine;
+using UnityEngine.Networking;
+
+namespace Script
+{
+    public class AudioScript: MonoBehaviour
+    {
+        public AudioClip goodSpeak;
+        public AudioClip normalSpeak;
+        public AudioClip badSpeak;
+        private AudioSource selectAudio;
+        private Dictionary<string, float> dataSet = new();
+        private bool statusStart = false;
+        private int i = 1;
+        private string sheetUrl = "";
+        private string apiKey = "";
+
+
+        void Awake()
+        {
+            StartCoroutine(GoogleSheets());
+        }
+
+        private void Update()
+        {
+            if (dataSet.Count > 0)
+            {
+                var data = dataSet[$"Mon_{i}"];
+                if (data <= 10 && !statusStart && i != dataSet.Count)
+                {
+                    StartCoroutine(PlaySelectAudio(goodSpeak));
+                    Debug.Log(data);
+                }
+                else if (data <= 100 && !statusStart && i != dataSet.Count)
+                {
+                    StartCoroutine(PlaySelectAudio(normalSpeak));
+                    Debug.Log(data);
+                }
+                else if (!statusStart && i != dataSet.Count)
+                {
+                    StartCoroutine(PlaySelectAudio(badSpeak));
+                    Debug.Log(data);
+                }
+            }
+        }
+
+        IEnumerator GoogleSheets()
+        {
+            var currentResp = UnityWebRequest.Get($"https://sheets.googleapis.com/v4/" +
+                                                  $"spreadsheets/{sheetUrl}/values/Лист1?key={apiKey}");
+            yield return currentResp.SendWebRequest();
+            var rawResp = currentResp.downloadHandler.text;
+            var rawJson = JSON.Parse(rawResp);
+            foreach (var item in rawJson["values"])
+            {
+                var parseJson = JSON.Parse(item.ToString());
+                var selectRow = parseJson[0].AsStringList;
+                dataSet.Add("Mon_" + selectRow[0], float.Parse(selectRow[2]));
+            }
+        }
+
+        IEnumerator PlaySelectAudio(AudioClip clip)
+        {
+            statusStart = true;
+            selectAudio = GetComponent<AudioSource>();
+            selectAudio.clip = clip;
+            selectAudio.Play();
+            yield return new WaitForSeconds(clip.length);
+            statusStart = false;
+            i++;
+        }
+    }
+}
+```
+
 ## Задание 2
 ### Реализовать запись в Google-таблицу набора данных, полученных с помощью линейной регрессии из лабораторной работы № 1. 
 Ход работы:
