@@ -26,8 +26,18 @@
 |![Снимок экрана 2022-10-24 224451](https://user-images.githubusercontent.com/101575777/197593896-d4ea5ab3-88d4-4a7f-a69d-50528549d707.png) |
 
 - Начал процесс обучения
+https://user-images.githubusercontent.com/101575777/197595645-2dd67c32-862d-4358-b0a9-1e7e9c6ce64e.mp4
 
+-Тройное обучение
 
+https://user-images.githubusercontent.com/101575777/197596435-dc2fbb09-0d64-4573-af02-a373330434d4.mp4
+
+-Еще раз уроили
+
+https://user-images.githubusercontent.com/101575777/197596450-024655f0-25a9-4b12-96da-0dcd23039eaa.mp4
+
+-И еще раз
+https://user-images.githubusercontent.com/101575777/197596465-48c9f8ff-668e-4a37-b707-3205c221bb8e.mp4
 
 ## Задание 2
 ### Описать не менее трех сущностей в играх и интерактивных приложениях, нуждающихся в оптимизации.
