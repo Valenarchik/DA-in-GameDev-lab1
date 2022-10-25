@@ -84,7 +84,7 @@ behaviors:
 ### Доработайте сцену и обучите ML-Agent таким образом, чтобы шар перемещался между двумя кубами разного цвета.
 **В коде присутсвуют комментарии**
 
-'''cs
+```cs
 
 using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
@@ -152,7 +152,7 @@ public class RollerAgent : Agent
     }
 }
 
-'''
+```
 
 Агент успешно проходит обучение
 
