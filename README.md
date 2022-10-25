@@ -81,8 +81,84 @@ behaviors:
 ```
 
 ## Задание 3
-### Дать развернутый ответ, что такое игровой баланс и как системы машинного обучения могут быть использованы для того, чтобы его скорректировать.
+### Доработайте сцену и обучите ML-Agent таким образом, чтобы шар перемещался между двумя кубами разного цвета.
+**В коде присутсвуют комментарии**
+
+'''cs
+using Unity.MLAgents;
+using Unity.MLAgents.Actuators;
+using Unity.MLAgents.Sensors;
+using UnityEngine;
+
+public class RollerAgent : Agent
+{
+    private Rigidbody rBody;
+    [SerializeField] private Transform targetOne;
+    [SerializeField] private Transform targetTwo; // Добавил второй обьект-цель
+    [SerializeField] private float forceMultiplier = 10;
+    private float delta = 1.42f;
+    
+    private Vector3 GetRandomPosition => new Vector3(Random.value * 8-4, 0.5f, Random.value * 8-4);
+    private Vector3 GetMiddle(Vector3 v1, Vector3 v2) => (v1 + v2) / 2;
+    void Start()
+    {
+        rBody = GetComponent<Rigidbody>();
+    }
+    
+    public override void OnEpisodeBegin()
+    {
+        if (this.transform.localPosition.y < 0)
+        {
+            this.rBody.angularVelocity = Vector3.zero;
+            this.rBody.velocity = Vector3.zero;
+            this.transform.localPosition = new Vector3(0, 0.5f, 0);
+        }
+
+        targetOne.localPosition = GetRandomPosition;
+        targetTwo.localPosition = GetRandomPosition; // также задаю ему случайное положение по окончанию эпизода.
+    }
+    public override void CollectObservations(VectorSensor sensor)
+    {
+        // нахожу середину и добавляю ее в "чувства" агента
+        var middle = GetMiddle(targetOne.localPosition, targetTwo.localPosition); 
+        sensor.AddObservation(middle);
+        sensor.AddObservation(this.transform.localPosition);
+        sensor.AddObservation(rBody.velocity.x);
+        sensor.AddObservation(rBody.velocity.z);
+    }
+  
+    public override void OnActionReceived(ActionBuffers actionBuffers)
+    {
+        Vector3 controlSignal = Vector3.zero;
+        controlSignal.x = actionBuffers.ContinuousActions[0];
+        controlSignal.z = actionBuffers.ContinuousActions[1];
+        rBody.AddForce(controlSignal * forceMultiplier);
+
+        var localPosition = this.transform.localPosition;
+        var middle = GetMiddle(targetOne.localPosition, targetTwo.localPosition); 
+        float distanceToMiddle = Vector3.Distance(localPosition, middle);
+        
+        // проверяю достиг ли агент середины.
+        if (distanceToMiddle < delta)
+        {
+            SetReward(1.0f);
+            EndEpisode();
+        }
+        else if (this.transform.localPosition.y < 0)
+        {
+            EndEpisode();
+        }
+    }
+}
+
+'''
+
+Агент успешно проходит обучение
+
+
+https://user-images.githubusercontent.com/101575777/197723290-fd650641-a624-457e-9000-769582f31623.mp4
 
 
 ## Выводы
+### Дайте развернутый ответ, что такое игровой баланс и как системы машинного обучения могут быть использованы для того, чтобы его скорректировать.
 
