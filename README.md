@@ -85,6 +85,7 @@ behaviors:
 **В коде присутсвуют комментарии**
 
 '''cs
+
 using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
