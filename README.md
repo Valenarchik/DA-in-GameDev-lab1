@@ -75,7 +75,7 @@
 ### Построить графики зависимости колличества эпох от ошибки обучения. Указать от чего зависит необходимое колличество эпох.
 Чтобы построить графики я решил использовать уже знакомые Google Sheets. Оставались всего несколько проблем, как союрать данные и как их отправить в таблицу. Руками я это делать не хотел, поэтому решил все это автоматизировать, использовав Google.Apis.Sheets.v4. 
 
-- Сперва сбор данных, для этого я немного модифицировал метод Train из класса Perceptron.
+- Сперва сбор данных, для этого я немного модифицировал метод Train из класса Perceptron. Теперь он ленивый и возвращает ошибку после каждой итерации.
 ```cs
     public IEnumerable<double> Train(int epochs)
     {
@@ -91,9 +91,8 @@
         }
     }
 ```
-Теперь он ленивый и возвращает ошибку после каждой итерации.
 
-- Далее я создаю скрипт Google Sheet в котором и буду собирать данные:
+- Далее я создаю скрипт Google Sheet в котором и буду собирать данные. Чтобы данные были более правдивыми, я провожу один и тот же эксперепемент нескольно раз и беру среднее за каждую эпоху. Пример, провел 4 эксперимента, данные за первую эпоху: 4, 3, 4, 3, итого среднее 3.5. Для удобства основные параметры выношу в инспектор. 
 ```cs
 public class GoogleSheet : MonoBehaviour
 {
@@ -120,6 +119,109 @@ public class GoogleSheet : MonoBehaviour
         }
 
         return new List<double>(temp.Select(e => e.Average()));
+    }
+}
+```
+- Следующая большая проблема это разобраться с Google.Apis.Sheets.v4. Скачивание простых NuGet Package не помогает. Uniti просто не видит их. Чтобы исправить проблему пришлось достать dll из пакета для netstandart 2.0 и переместить в сoзданую мной папку Plugins в Assets. И все заработало. Далее я написал методы для отправки данных в мою гугл таблицу. Вот итоговый скрипт.
+```cs
+using System.Collections.Generic;
+using UnityEngine;
+using System.IO;
+using System.Linq;
+using Google.Apis.Sheets.v4;
+using Google.Apis.Auth.OAuth2;
+using Google.Apis.Services;
+using Google.Apis.Sheets.v4.Data;
+
+public class GoogleSheet : MonoBehaviour
+{
+    public int repeat = 10;
+    public int countEpochs = 10;
+    public Perceptron or;
+    public Perceptron and;
+    public Perceptron nand;
+    public Perceptron xor;
+
+    private static readonly string[] scopes = {SheetsService.Scope.Spreadsheets};
+    private const string ApplicationName = "UnityGoogle";
+    private const string SpreadsheetId = "<тут id вашей таблицы>";
+    private readonly char[] alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".ToCharArray();
+    private static SheetsService Service { get; set; }
+
+    public void Awake()
+    {
+        InitializeService();
+        AddData(or, "OR");
+        AddData(and, "AND");
+        AddData(nand, "NAND");
+        AddData(xor, "XOR");
+    }
+
+
+    private void InitializeService()
+    {
+        var credential = GetCredentialsFromFile();
+        Service = new SheetsService(new BaseClientService.Initializer()
+        {
+            HttpClientInitializer = credential,
+            ApplicationName = ApplicationName
+        });
+    }
+
+    private GoogleCredential GetCredentialsFromFile()
+    {
+        using var stream = new FileStream(
+            @"C:\Users\pavel\UnityProjects\UnityDataScience\Assets\Script\<тут секретный json файл из гугл консоли>",
+            FileMode.Open,
+            FileAccess.Read);
+        var credential = GoogleCredential.FromStream(stream).CreateScoped(scopes);
+
+        return credential;
+    }
+    
+
+    public void AddData(Perceptron perceptron, string sheetName)
+    {
+        var stat = CollectingStatistics(perceptron);
+        var range = $"{sheetName}!B2:{alpha[countEpochs+1]}";
+        var objectMatrix = new List<IList<object>>() {new List<object>(stat.Select(e => (object) e))};
+        CreateEntry(range, objectMatrix);
+    }
+
+    private List<double> CollectingStatistics(Perceptron perceptron)
+    {
+        var temp = new List<List<double>>();
+        for (var i = 0; i < countEpochs; i++)
+            temp.Add(new List<double>()); 
+        for (var i = 0; i < repeat; i++)
+        {
+            var j = 0;
+            foreach (var totalError in perceptron.Train(countEpochs))
+            {
+                temp[j].Add(totalError);
+                j++;
+            }
+        }
+
+        return new List<double>(temp.Select(e => e.Average()));
+    }
+    static void CreateEntry(string range, List<IList<object>> objectMatrix)
+    {
+        DeleteEntry(range);
+        var valueRange = new ValueRange();
+        valueRange.Values = objectMatrix;
+
+        var appendRequest = Service.Spreadsheets.Values.Append(valueRange, SpreadsheetId, range);
+        appendRequest.ValueInputOption =
+            SpreadsheetsResource.ValuesResource.AppendRequest.ValueInputOptionEnum.USERENTERED;
+        var appendResponse = appendRequest.Execute();
+    }
+
+    static void DeleteEntry(string range)
+    {
+        var requestBody = new ClearValuesRequest();
+        var deleteRequest = Service.Spreadsheets.Values.Clear(requestBody, SpreadsheetId, range);
+        var deleteResponse = deleteRequest.Execute();
     }
 }
 ```
