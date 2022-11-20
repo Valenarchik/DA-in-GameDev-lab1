@@ -73,7 +73,57 @@
 
 ## Задание 2
 ### Построить графики зависимости колличества эпох от ошибки обучения. Указать от чего зависит необходимое колличество эпох.
+Чтобы построить графики я решил использовать уже знакомые Google Sheets. Оставались всего несколько проблем, как союрать данные и как их отправить в таблицу. Руками я это делать не хотел, поэтому решил все это автоматизировать, использовав Google.Apis.Sheets.v4. 
 
+- Сперва сбор данных, для этого я немного модифицировал метод Train из класса Perceptron.
+```cs
+    public IEnumerable<double> Train(int epochs)
+    {
+        InitialiseWeights();
+
+        for (var e = 0; e < epochs; e++)
+        {
+            totalError = 0;
+            for (var t = 0; t < trainingSets.Length; t++)
+                UpdateWeights(t);
+            
+            yield return totalError;
+        }
+    }
+```
+Теперь он ленивый и возвращает ошибку после каждой итерации.
+
+- Далее я создаю скрипт Google Sheet в котором и буду собирать данные:
+```cs
+public class GoogleSheet : MonoBehaviour
+{
+    public int repeat = 10;
+    public int countEpochs = 10;
+    public Perceptron or;
+    public Perceptron and;
+    public Perceptron nand;
+    public Perceptron xor;
+    
+    private List<double> CollectingStatistics(Perceptron perceptron)
+    {
+        var temp = new List<List<double>>();
+        for (var i = 0; i < countEpochs; i++)
+            temp.Add(new List<double>()); 
+        for (var i = 0; i < repeat; i++)
+        {
+            var j = 0;
+            foreach (var totalError in perceptron.Train(countEpochs))
+            {
+                temp[j].Add(totalError);
+                j++;
+            }
+        }
+
+        return new List<double>(temp.Select(e => e.Average()));
+    }
+}
+```
+ 
 ## Задание 3
 ### Построить визуальную модель работы перцептрона на сцене Unity.
 
