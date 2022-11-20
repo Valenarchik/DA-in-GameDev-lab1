@@ -20,8 +20,11 @@
 
 |Внес начальные условия и желаемый результат|
 |:--:|
-| ![or](https://user-images.githubusercontent.com/101575777/202890048-fd9b1f5f-3697-45e2-870a-62051da9a35a.png)|
+| ![or](https://user-images.githubusercontent.com/101575777/202890048-fd9b1f5f-3697-45e2-870a-62051da9a35a.png) |
 
+|![or2](https://user-images.githubusercontent.com/101575777/202890204-6a11b122-ec49-4670-b575-9e8b28831526.png) |
+|:--:|
+|Как видно, перцептрон успешно проходит обучение, в среднем это занимает около 4 эпох|
 
 - **AND**
 
