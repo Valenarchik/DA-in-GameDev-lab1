@@ -226,7 +226,16 @@ public class GoogleSheet : MonoBehaviour
     }
 }
 ```
- 
+#### Вот такие графики у меня получились:
+
+![Снимок экрана 2022-11-20 131840](https://user-images.githubusercontent.com/101575777/202892443-4793d7d3-005f-45e0-b37d-1795c35a62c9.png)
+
+![Снимок экрана 2022-11-20 131901](https://user-images.githubusercontent.com/101575777/202892449-4a3cbb61-0f93-4daf-a45b-c8fa68640220.png)
+
+![Снимок экрана 2022-11-20 131914](https://user-images.githubusercontent.com/101575777/202892456-6424772b-5231-402a-862d-700dd6135394.png)
+
+![Снимок экрана 2022-11-20 131929](https://user-images.githubusercontent.com/101575777/202892463-9535d77b-a4b6-4ba4-84a4-6ff7937343d9.png)
+
 ## Задание 3
 ### Построить визуальную модель работы перцептрона на сцене Unity.
 
