@@ -144,7 +144,7 @@ public class GoogleSheet : MonoBehaviour
 
     private static readonly string[] scopes = {SheetsService.Scope.Spreadsheets};
     private const string ApplicationName = "UnityGoogle";
-    private const string SpreadsheetId = "<тут id вашей таблицы>";
+    private const string SpreadsheetId = "12dLXsTdMMP3_Px-3Ztz9OiXmtFmjWHwiZng1sLvLmE8";
     private readonly char[] alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".ToCharArray();
     private static SheetsService Service { get; set; }
 
@@ -171,20 +171,21 @@ public class GoogleSheet : MonoBehaviour
     private GoogleCredential GetCredentialsFromFile()
     {
         using var stream = new FileStream(
-            @"C:\Users\pavel\UnityProjects\UnityDataScience\Assets\Script\<тут секретный json файл из гугл консоли>",
+            @"C:\Users\pavel\UnityProjects\UnityDataScience\Assets\Script\unitydatascience-364414-fbce24f1ae2a.json",
             FileMode.Open,
             FileAccess.Read);
         var credential = GoogleCredential.FromStream(stream).CreateScoped(scopes);
 
         return credential;
     }
-    
+
 
     public void AddData(Perceptron perceptron, string sheetName)
     {
         var stat = CollectingStatistics(perceptron);
-        var range = $"{sheetName}!B2:{alpha[countEpochs+1]}";
+        var range = $"{sheetName}!B2:{alpha[countEpochs + 1]}";
         var objectMatrix = new List<IList<object>>() {new List<object>(stat.Select(e => (object) e))};
+        DeleteEntry(range);
         CreateEntry(range, objectMatrix);
     }
 
@@ -192,7 +193,7 @@ public class GoogleSheet : MonoBehaviour
     {
         var temp = new List<List<double>>();
         for (var i = 0; i < countEpochs; i++)
-            temp.Add(new List<double>()); 
+            temp.Add(new List<double>());
         for (var i = 0; i < repeat; i++)
         {
             var j = 0;
@@ -205,9 +206,9 @@ public class GoogleSheet : MonoBehaviour
 
         return new List<double>(temp.Select(e => e.Average()));
     }
+
     static void CreateEntry(string range, List<IList<object>> objectMatrix)
     {
-        DeleteEntry(range);
         var valueRange = new ValueRange();
         valueRange.Values = objectMatrix;
 
