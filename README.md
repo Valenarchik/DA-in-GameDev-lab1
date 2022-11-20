@@ -28,6 +28,18 @@
 
 - **AND**
 
+|Также внес начальные условия и желаемый результат|
+|:--:|
+| ![And](https://user-images.githubusercontent.com/101575777/202890307-b2234b6c-5622-4d80-9d5a-ea38b7077827.png) |
+
+|Иногда перцептрон проходит обучение быстро|
+|:--:|
+| ![And2](https://user-images.githubusercontent.com/101575777/202890323-767d1e03-c7ab-43c3-81ad-a6fd5cc68eaa.png) |
+
+|А иногда ему не хаватает и восьми эпох, что научиться вести себя как AND|
+|:--:|
+| ![and3](https://user-images.githubusercontent.com/101575777/202890360-c4fbb30f-96da-4116-8a39-a76965688145.png) |
+
 - **NAND**
 
 - **XOR**
