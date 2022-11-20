@@ -26,7 +26,7 @@
 |:--:|
 |![or2](https://user-images.githubusercontent.com/101575777/202890204-6a11b122-ec49-4670-b575-9e8b28831526.png) |
 
----
+***
 
 - **AND**
 
