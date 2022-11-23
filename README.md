@@ -144,7 +144,7 @@ public class GoogleSheet : MonoBehaviour
 
     private static readonly string[] scopes = {SheetsService.Scope.Spreadsheets};
     private const string ApplicationName = "UnityGoogle";
-    private const string SpreadsheetId = "12dLXsTdMMP3_Px-3Ztz9OiXmtFmjWHwiZng1sLvLmE8";
+    private const string SpreadsheetId = "<тут id таблицы>";
     private readonly char[] alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".ToCharArray();
     private static SheetsService Service { get; set; }
 
@@ -171,7 +171,7 @@ public class GoogleSheet : MonoBehaviour
     private GoogleCredential GetCredentialsFromFile()
     {
         using var stream = new FileStream(
-            @"C:\Users\pavel\UnityProjects\UnityDataScience\Assets\Script\unitydatascience-364414-fbce24f1ae2a.json",
+            @"C:\Users\pavel\UnityProjects\UnityDataScience\Assets\Script\<тут секрктный json файл>",
             FileMode.Open,
             FileAccess.Read);
         var credential = GoogleCredential.FromStream(stream).CreateScoped(scopes);
