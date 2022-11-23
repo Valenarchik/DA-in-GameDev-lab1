@@ -242,27 +242,19 @@ public class GoogleSheet : MonoBehaviour
 ### Построить визуальную модель работы перцептрона на сцене Unity.
 Здесь решил ничего сверхъестественного не придумывать, просто есть кубики, они сталктваются и в результате получается другой кубик (решает перцептрон).
 
-**Визуализация OR**
-
 https://user-images.githubusercontent.com/101575777/203586927-99649187-1577-45bb-b862-2c090d75dff5.mp4
 
 ---
-
-**Визуализация AND**
 
 https://user-images.githubusercontent.com/101575777/203586952-8ccd7ede-f6a5-40c1-9ea3-d89450b523ac.mp4
 
 ---
 
-**Визуализация NAND**
-
 https://user-images.githubusercontent.com/101575777/203586988-24f03e85-8852-479e-855d-5b0883fc1309.mp4
 
 ---
 
-
-**Визуализация XOR**
-
 https://user-images.githubusercontent.com/101575777/203587010-eca4e245-14c2-4f95-97bf-48fa9a690891.mp4
+
 
 ## Выводы
