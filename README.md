@@ -171,7 +171,7 @@ public class GoogleSheet : MonoBehaviour
     private GoogleCredential GetCredentialsFromFile()
     {
         using var stream = new FileStream(
-            @"C:\Users\pavel\UnityProjects\UnityDataScience\Assets\Script\<тут секрктный json файл>",
+            @"C:\Users\pavel\UnityProjects\UnityDataScience\Assets\Script\<тут секретный json файл>",
             FileMode.Open,
             FileAccess.Read);
         var credential = GoogleCredential.FromStream(stream).CreateScoped(scopes);
