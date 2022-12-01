@@ -37,7 +37,7 @@
 
 <img width=100% src="https://user-images.githubusercontent.com/101575777/205055214-beeccfda-23a2-4059-9946-c03164afb5c6.png" />
 
-И вправду, даже Unity это подтверждает у нас не инфляция а дифляция вообще.
+И вправду, даже Unity это подтверждает у нас не инфляция, а дифляция вообще.
 
 ![8](https://user-images.githubusercontent.com/101575777/205055508-dfa242db-2ee8-4983-a246-b60aff8f782d.png)
 
