@@ -47,7 +47,18 @@
 
 <img width=100% src="https://user-images.githubusercontent.com/101575777/205058610-df67ee4c-043a-4505-9f26-6fbaec1082d7.png" />
 
+---
+Ну и на последок решил, что увеличу колличество эпох в 2 раза с 3 до 6. Это немного ухудшело обучение и оно стало проходить ощутимо дольше.
+
+<img width=100% src="https://user-images.githubusercontent.com/101575777/205060545-8e8b5cd7-4f77-4f47-94bd-2b13b1a2e9bc.png" />
+
+Вот как было в прошлый раз(скорость выше):
+![123123](https://user-images.githubusercontent.com/101575777/205061036-185a24eb-254f-41f6-9867-3062379c1ee4.png)
+
+A вот как сейчас(скорость обучения упала):
+![121](https://user-images.githubusercontent.com/101575777/205061181-880d67c0-ff8c-4f46-90cc-4c954d3ebd77.png)
 
 ## Выводы
+
 
 
